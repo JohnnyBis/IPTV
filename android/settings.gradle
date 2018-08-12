@@ -1,0 +1,11 @@
+rootProject.name = 'xtreamiptvplayerreactnative'
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-ksyvideo'
+project(':react-native-ksyvideo').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ksyvideo/android')
+include ':react-native-orientation'
+project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
+include ':react-native-locale'
+project(':react-native-locale').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-locale/android')
+
+include ':app'

@@ -1,0 +1,18 @@
+PODS:
+  - KSYMediaPlayer_iOS (3.0.3):
+    - KSYMediaPlayer_iOS/KSYMediaPlayer_live (= 3.0.3)
+  - KSYMediaPlayer_iOS/KSYMediaPlayer_live (3.0.3)
+
+DEPENDENCIES:
+  - KSYMediaPlayer_iOS
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - KSYMediaPlayer_iOS
+
+SPEC CHECKSUMS:
+  KSYMediaPlayer_iOS: bd163c277487e99df58941f10f090af2fb53fd6d
+
+PODFILE CHECKSUM: 57f12b03f9f1edcf9fd6ee6f1f6e5a565126486b
+
+COCOAPODS: 1.5.0
