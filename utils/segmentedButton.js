@@ -16,31 +16,33 @@ const styles = StyleSheet.create({
 	navItem: {
 		marginLeft: 5,
 		marginRight: 5,
-		paddingTop: 10,
-		paddingBottom: 10,
+		paddingTop: 2,
+		paddingBottom: 2,
 		paddingLeft: 7,
 		paddingRight: 7,
 		alignItems: 'center',
-		height: 45,
+		height: 35,
 	},
 	navItemText: {
 		marginTop: 6,
 		fontSize: 13,
+		fontWeight : 'bold'
 	},
 	activeBottom: {
 		position: 'absolute',
+		color : 'black',
 		left: 0,
 		bottom: 1,
 		marginTop: 2,
-
 	},
 	activeBottomLine: {
-		borderBottomWidth: 1,
+		color : 'black',
+		// borderBottomWidth: 1,
 	},
 });
 
-const activeTinyColor = '#00afa5';
-const tinyColor = '#434343';
+const activeTinyColor = 'black';
+const tinyColor = 'white';
 
 const bottomAdded = -15;
 
@@ -92,7 +94,7 @@ export default class SegmentedButton extends Component {
 			if (activeItemIndex === index) {
 				return (
 					<TouchableOpacity key={key} ref={index} style={[styles.navItem, { marginBottom: 1.5 }]} >
-						<Text style={[styles.navItemText, { color: activeTinyColor }]}>{label}</Text>
+						<Text style={[styles.navItemText, { color: activeTinyColor }]}>{label.toUpperCase()}</Text>
 					</TouchableOpacity>
 				);
 			}
@@ -102,7 +104,7 @@ export default class SegmentedButton extends Component {
 					ref={index}
 					onPress={e => $this._onSegmentBtnPress(e, index)}
 					style={[styles.navItem, {}]}>
-					<Text style={[styles.navItemText, { color: tinyColor }]}>{label}</Text>
+					<Text style={[styles.navItemText, { color: tinyColor }]}>{label.toUpperCase()}</Text>
 				</TouchableOpacity>
 			);
 
@@ -113,6 +115,7 @@ export default class SegmentedButton extends Component {
 					ref='scrollView'
 					automaticallyAdjustContentInsets={false}
 					directionalLockEnabled
+					contentContainerStyle={{borderWidth : 2,borderLeftColor : 'transparent',borderRightColor : 'transparent',marginBottom : 15}}
 					horizontal
 					showsHorizontalScrollIndicator={false}>
 					{doms}

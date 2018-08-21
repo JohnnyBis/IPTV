@@ -18,14 +18,17 @@ const App = StackNavigator({
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {
-			headerLeft: null,
+			// headerLeft: null,
+			headerVisible: false,
+			tabBarVisible: false,
 			gesturesEnabled: false,
 		},
 	},
 	Account: {
 		screen: AccountScreen,
 		navigationOptions: {
-			headerLeft: null,
+			headerVisible: false,
+			// headerLeft: null,
 			gesturesEnabled: false,
 		},
 	},
@@ -56,6 +59,15 @@ const App = StackNavigator({
 	SeriesEpisodeViewer: {
 		screen: SeriesEpisodeViewerScreen,
 	},
+},{
+	navigationOptions: {
+		// headerLeft: null,
+		headerVisible: false,
+		tabBarVisible: false,
+		gesturesEnabled: false,
+	},
+	headerMode: "none"
+
 });
 
 export default App;

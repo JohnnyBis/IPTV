@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Alert, AsyncStorage, Button, StyleSheet, Text, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Alert, AsyncStorage, Button, StyleSheet, Text, ScrollView, View,ImageBackground,TouchableOpacity,Image } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-
+import {Icon} from 'native-base'
 import Toast, { DURATION } from 'react-native-easy-toast';
-
+import {totalSize , height , width} from 'react-native-dimension'
 import getCategories from './api/getCategories';
 import getVODs from './api/getVODs';
 
@@ -185,22 +185,35 @@ class VODScreen extends Component {
 		}
 
 		return (
+			<ImageBackground
+			source={require('./assets/background.jpg')}
+			style={{ flex: 1, height: undefined, width: undefined }}>
+
+			{/* HEADER STYLE  */}
+			<View style={{flexDirection : 'row'}}>
+				<TouchableOpacity>
+					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(1)}}></Icon>
+				</TouchableOpacity>
+				<Text style={{color : 'white',marginLeft : totalSize(31),textAlign : 'center',fontSize : totalSize(4)}}>Movies</Text>
+			</View>
+			{/* HEADER STYLE  */}
 			<ScrollView contentContainerStyle={styles.listContainer}>
 				<SegmentedButton
 					items={menuItems}
 					onSegmentBtnPress={(btn, index) => this.onCategoryButton(btn, index)} />
-				<View>
+				{/* <View>
 					<SearchBar
 						ref={(search) => { this.search = search; }}
 						onChangeText={text => this.searchForVODs(text)}
 						placeholder={getLocalizedString('live.searchPlaceholder')}
 						round />
-				</View>
-				<ScrollView>
+				</View> */}
+				<ScrollView contentContainerStyle={{flexDirection : 'row',flexWrap : 'wrap'}}>
 					{weAreSearching ? filteredList : listItems}
 				</ScrollView>
 				<Toast ref={(c) => { this.toast = c; }} />
 			</ScrollView>
+			</ImageBackground>
 		);
 	}
 
@@ -223,32 +236,48 @@ class VODScreen extends Component {
 			}
 
 			if (vod.name.charAt(0) !== '(' && !isLetterOrNumber(vod.name.charAt(0))) {
-				vodItem = <Button key={vod.stream_id} disabled onPress={() => {}} style={styles.listItem} title={vod.name} />;
+				// vodItem = <Button key={vod.stream_id} disabled onPress={() => {}} style={styles.listItem} title={vod.name} />;
 
-				listItems.push(vodItem);
+				// listItems.push(vodItem);
 
 				return;
 			}
 
 			vodItem = vod.stream_icon.startsWith('http') || vod.stream_icon.startsWith('https') ? (
-				<ListItem
-					key={vod.stream_id}
-					avatar={{ uri: vod.stream_icon }}
-					containerStyle={{ borderBottomWidth: 0 }}
-					onPress={() => this.props.navigation.navigate('VODChannel', {
-						url, username, password, vod,
-					})}
-					roundAvatar
-					title={vod.name} />
+				
+				<View style={{width : width(22),height: height(40),backgroundColor : 'black',margin : totalSize(1)}}>
+				<TouchableOpacity onPress={() => this.props.navigation.navigate('VODChannel', {
+				url, username, password, vod,
+					})}>
+				<Image style={{width : width(22),height: height(40)}} source={{ uri : vod.stream_icon}} />					
+					</TouchableOpacity>
+				</View>
+
+				// <ListItem
+				// 	key={vod.stream_id}
+				// 	avatar={{ uri: vod.stream_icon }}
+				// 	containerStyle={{ borderBottomWidth: 0 }}
+				// 	onPress={() => this.props.navigation.navigate('VODChannel', {
+				// 		url, username, password, vod,
+				// 	})}
+				// 	roundAvatar
+				// 	title={vod.name} />
 			) : (
-				<ListItem
-					key={vod.stream_id}
-					containerStyle={{ borderBottomWidth: 0 }}
-					onPress={() => this.props.navigation.navigate('VODChannel', {
-						url, username, password, vod,
-					})}
-					roundAvatar
-					title={vod.name} />
+				<View style={{width : width(22),height: height(40),backgroundColor : 'black',margin : totalSize(1)}}>
+				<TouchableOpacity onPress={() => this.props.navigation.navigate('VODChannel', {
+				url, username, password, vod,
+					})}>
+				<Image style={{width : width(22),height: height(40)}} source={{ uri : 'https://image.flaticon.com/icons/png/512/241/241202.png'}} />					
+					</TouchableOpacity>
+				</View>
+				// <ListItem
+				// 	key={vod.stream_id}
+				// 	containerStyle={{ borderBottomWidth: 0 }}
+				// 	onPress={() => this.props.navigation.navigate('VODChannel', {
+				// 		url, username, password, vod,
+				// 	})}
+				// 	roundAvatar
+				// 	title={vod.name} />
 			);
 
 			listItems.push(vodItem);

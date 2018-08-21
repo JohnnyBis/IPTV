@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Alert, AsyncStorage, Image, NetInfo, StyleSheet, TextInput, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Alert, AsyncStorage, Image, NetInfo, StyleSheet, TextInput, ScrollView, View, ImageBackground,TouchableOpacity } from 'react-native';
+// import { Button } from 'react-native-elements';
+import { Container, Header, Content, Button, Text, Row, Switch } from 'native-base';
+import { width, height, totalSize } from 'react-native-dimension';
 
 import Toast, { DURATION } from 'react-native-easy-toast';
 
@@ -11,11 +13,33 @@ import getLocalizedString from './utils/getLocalizedString';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
+		// alignItems: 'center',
+		// justifyContent: 'center',
+	},
+	mainLogo: {
+		color: 'white',
+		marginTop: totalSize(2),
+		fontSize: totalSize(2.7),
+		fontWeight: 'bold'
+	},
+	welcomeText: {
+		color: 'white',
+		marginTop: totalSize(2),
+		fontSize: totalSize(1.7),
+	},
+	loginButton : {
+		marginTop : totalSize(4),
+		backgroundColor : 'rgba(6,51,164,1)',
+		width : width(40)
 	},
 	textInputStyle: {
-		width: 200,
+		width: width(40),
+		color: 'white',
+		borderWidth: 1,
+		borderBottomColor: "white",
+		borderLeftColor: 'transparent',
+		borderRightColor: 'transparent',
+		borderTopColor: 'transparent',
 		height: 45,
 	},
 	image: {
@@ -121,7 +145,6 @@ export default class App extends Component {
 		}
 
 		const loginReply = await Login(url, username, password);
-
 		if (loginReply.user_info.auth === 1) {
 			const { navigate } = this.props.navigation;
 
@@ -137,40 +160,115 @@ export default class App extends Component {
 		const { url, username, password } = this.state;
 
 		return (
-			<ScrollView contentContainerStyle={styles.container}>
-				<Image
-					resizeMode='contain'
-					source={require('./common/z_1_250.png')}
-					style={styles.image} />
-				<TextInput
-					autoCapitalize='none'
-					autoCorrect={false}
-					onChangeText={urlText => this.setState({ url: urlText })}
-					placeholder={getLocalizedString('login.placeholderURL')}
-					style={styles.textInputStyle}
-					value={url} />
-				<TextInput
-					autoCapitalize='none'
-					autoCorrect={false}
-					onChangeText={usernameText => this.setState({ username: usernameText })}
-					placeholder={getLocalizedString('login.placeholderUsername')}
-					style={styles.textInputStyle}
-					value={username} />
-				<TextInput
-					autoCapitalize='none'
-					autoCorrect={false}
-					onChangeText={passwordText => this.setState({ password: passwordText })}
-					placeholder={getLocalizedString('login.placeholderPassword')}
-					secureTextEntry
-					style={styles.textInputStyle}
-					value={password} />
-				<Button
-					icon={{ name: 'key', type: 'font-awesome' }}
-					large
-					onPress={() => this.checkFields()}
-					title={getLocalizedString('login.loginButton')} />
-				<Toast ref={(c) => { this.toast = c; }} />
-			</ScrollView>
+			<Container>
+				<ImageBackground
+					source={require('./assets/background.jpg')}
+					style={{ flex: 1, height: undefined, width: undefined }}>
+
+					{/* MAIN ROW */}
+					<Row>
+						<View style={{ width: width(50) ,marginLeft : totalSize(1)}}>
+							<Content padder>
+								<Text style={styles.mainLogo}>White Label Apps</Text>
+								<Text style={styles.welcomeText}>Welcome, Please Login</Text>
+
+								<View style={{ marginTop: totalSize(1) }}>
+									<TextInput
+										autoCapitalize='none'
+										autoCorrect={false}
+										placeholderTextColor="white"
+										onChangeText={urlText => this.setState({ url: urlText })}
+										placeholder={getLocalizedString('login.placeholderURL')}
+										style={styles.textInputStyle}
+										value={url} />
+									<TextInput
+										autoCapitalize='none'
+										autoCorrect={false}
+										placeholderTextColor="white"
+										onChangeText={usernameText => this.setState({ username: usernameText })}
+										placeholder={getLocalizedString('login.placeholderUsername')}
+										style={styles.textInputStyle}
+										value={username} />
+									<TextInput
+										autoCapitalize='none'
+										autoCorrect={false}
+										placeholderTextColor="white"
+										onChangeText={passwordText => this.setState({ password: passwordText })}
+										placeholder={getLocalizedString('login.placeholderPassword')}
+										secureTextEntry
+										style={styles.textInputStyle}
+										value={password} />
+								</View>
+								<Row style={{ marginTop: totalSize(2) }}>
+									<Switch value={true} />
+									<Text style={{ marginLeft: totalSize(2), color: 'white', fontSize: totalSize(2) }}>Remember me</Text>
+								</Row>
+								<Button block style={styles.loginButton} onPress={() => this.checkFields()}>
+									<Text style={{fontWeight : 'bold',textDecorationLine:'underline'}}>{getLocalizedString('login.loginButton')}</Text>
+								</Button>
+								<Toast ref={(c) => { this.toast = c; }} />
+
+							</Content>
+
+						</View>
+						<View style={{ width: width(50),justifyContent:'center',alignItems:'center' }}>
+							<Image style={{width:totalSize(20),height:totalSize(20)}} source={require('./assets/apple.png')} />
+							{/* <Text >asdasd</Text> */}
+						</View>
+
+						{/* CUSTOMER SUPPORT */}
+						<TouchableOpacity style={{position : 'absolute',right:totalSize(2),top:totalSize(2)}}>
+							<Image style={{width :totalSize(5),height : totalSize(5)}} source={require('./assets/support.png')}/>
+						</TouchableOpacity>
+						{/* CUSTOMER SUPPORT */}
+					</Row>
+					{/* MAIN ROW */}
+				</ImageBackground>
+			</Container>
+			// <ScrollView contentContainerStyle={styles.container}>
+			// 	<Image
+			// 		resizeMode='contain'
+			// 		source={require('./common/z_1_250.png')}
+			// 		style={styles.image} />
+			// 	<TextInput
+			// 		autoCapitalize='none'
+			// 		autoCorrect={false}
+			// 		onChangeText={urlText => this.setState({ url: urlText })}
+			// 		placeholder={getLocalizedString('login.placeholderURL')}
+			// 		style={styles.textInputStyle}
+			// 		value={url} />
+			// 	<TextInput
+			// 		autoCapitalize='none'
+			// 		autoCorrect={false}
+			// 		onChangeText={usernameText => this.setState({ username: usernameText })}
+			// 		placeholder={getLocalizedString('login.placeholderUsername')}
+			// 		style={styles.textInputStyle}
+			// 		value={username} />
+			// 	<TextInput
+			// 		autoCapitalize='none'
+			// 		autoCorrect={false}
+			// 		onChangeText={passwordText => this.setState({ password: passwordText })}
+			// 		placeholder={getLocalizedString('login.placeholderPassword')}
+			// 		secureTextEntry
+			// 		style={styles.textInputStyle}
+			// 		value={password} />
+
+
+			// 	{/* LOGIN BUTTON  */}
+
+			// 		<Button block onPress={() => this.checkFields()}>
+			// 		<Text>{getLocalizedString('login.loginButton')}</Text>
+			// 		</Button>
+
+			// 	{/* LOGIN BUTTON  */}
+
+			// 	{/* <Button
+			// 		icon={{ name: 'key', type: 'font-awesome' }}
+			// 		large
+			// 		onPress={() => this.checkFields()}
+			// 		title={getLocalizedString('login.loginButton')} /> */}
+			// 	<Toast ref={(c) => { this.toast = c; }} />
+			// </ScrollView>
 		);
 	}
 }

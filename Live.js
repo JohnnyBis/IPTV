@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Alert, AsyncStorage, Button, StyleSheet, Text, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Alert, AsyncStorage, Button, StyleSheet, Text, ScrollView, View,ImageBackground,TouchableOpacity } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-
+import {Icon} from 'native-base'
 import Toast, { DURATION } from 'react-native-easy-toast';
 
 import getCategories from './api/getCategories';
@@ -10,6 +10,7 @@ import getChannels from './api/getChannels';
 import getLocalizedString from './utils/getLocalizedString';
 
 import SegmentedButton from './utils/segmentedButton';
+import { totalSize,width,height } from 'react-native-dimension';
 
 let categoriesAndChannels = [];
 
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
 	},
 	listItem: {
 		padding: 10,
+		color : 'black',
 		fontSize: 20,
 		height: 44,
 	},
@@ -185,22 +187,41 @@ class LiveScreen extends Component {
 		}
 
 		return (
+			<ImageBackground
+			source={require('./assets/background.jpg')}
+			style={{ flex: 1, height: undefined, width: undefined }}>
+
+			{/* HEADER STYLE  */}
+			<View style={{flexDirection : 'row'}}>
+				<TouchableOpacity>
+					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(1)}}></Icon>
+				</TouchableOpacity>
+				<Text style={{color : 'white',marginLeft : totalSize(31),textAlign : 'center',fontSize : totalSize(4)}}>Live TV</Text>
+			</View>
+			{/* HEADER STYLE  */}
+
 			<ScrollView contentContainerStyle={styles.listContainer}>
 				<SegmentedButton
 					items={menuItems}
 					onSegmentBtnPress={(btn, index) => this.onCategoryButton(btn, index)} />
-				<View>
+				{/* <View>
 					<SearchBar
 						ref={(search) => { this.search = search; }}
 						onChangeText={text => this.searchForChannels(text)}
 						placeholder={getLocalizedString('live.searchPlaceholder')}
 						round />
-				</View>
-				<ScrollView>
+				</View> */}
+				<View style={{flexDirection : 'row'}}>
+				<ScrollView style={{width : width(60)}}>
 					{weAreSearching ? filteredList : listItems}
 				</ScrollView>
+				<View style={{width : width(30), marginLeft: totalSize(3),marginTop : totalSize(5),marginRight: totalSize(3),height:height(50),backgroundColor : 'black'}}>
+
+				</View>
+				</View>
 				<Toast ref={(c) => { this.toast = c; }} />
 			</ScrollView>
+			</ImageBackground>
 		);
 	}
 
@@ -234,21 +255,25 @@ class LiveScreen extends Component {
 				<ListItem
 					key={ch.stream_id}
 					avatar={{ uri: ch.stream_icon }}
-					containerStyle={{ borderBottomWidth: 0 }}
+					containerStyle={{ borderBottomWidth: 1, borderBottomColor : 'black' }}
 					onPress={() => this.props.navigation.navigate('LiveChannel', {
 						url, username, password, ch,
 					})}
+					titleStyle={{color : 'black'}}
 					roundAvatar
-					title={ch.name} />
+					rightIcon={{color : 'black'}}
+					title={ch.name.toUpperCase()} />
 			) : (
 				<ListItem
 					key={ch.stream_id}
-					containerStyle={{ borderBottomWidth: 0 }}
+					containerStyle={{ borderBottomWidth: 1,  borderBottomColor : 'black' }}
 					onPress={() => this.props.navigation.navigate('LiveChannel', {
 						url, username, password, ch,
 					})}
+					titleStyle={{color : 'black'}}
+					rightIcon={{color : 'black'}}
 					roundAvatar
-					title={ch.name} />
+					title={ch.name.toUpperCase()} />
 			);
 
 			listItems.push(chItem);

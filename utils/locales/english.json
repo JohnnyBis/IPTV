@@ -39,7 +39,7 @@
 		"yes": "YES"
 	},
 	"login": {
-		"loginButton": "Login",
+		"loginButton": "Log in",
 		"placeholderURL": "Host URL",
 		"placeholderUsername": "Username",
 		"placeholderPassword": "Password",

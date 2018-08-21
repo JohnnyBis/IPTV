@@ -131,6 +131,7 @@ class VODChannel extends Component {
 			return (
 				<ConfirmDialog
 					message={message}
+					supportedOrientations={['portrait', 'landscape']} 
 					negativeButton={{
 						onPress: () => {
 							this.setState({ dialogVisible: false });
