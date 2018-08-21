@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#000000',
 	},
+	backgroundVideo: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0,
+	  },	
 	vlcplayer: {
 		width: playerDefaultWidth,
 		height: playerDefaultHeight,
@@ -100,7 +107,7 @@ export default class PlayeriOS extends Component {
 	//    onEnd={this.onEnded.bind(this)}
     //    onError={this.videoError}               // Callback when video cannot be loaded
 	   onBuffer={this.onBuffering.bind(this)} 
-	   style={[styles.vlcplayer]}  />
+	   style={styles.backgroundVideo}  />
 	   {/* {defaultControlsView} */}
 
 				{/* <VLCPlayer
