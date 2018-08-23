@@ -6,6 +6,7 @@ import Toast, { DURATION } from 'react-native-easy-toast';
 
 import getCategories from './api/getCategories';
 import getChannels from './api/getChannels';
+import getEPG from './api/getEPG';
 
 import getLocalizedString from './utils/getLocalizedString';
 
@@ -20,6 +21,7 @@ let channelsFetched = 0;
 let loadingChannelsFromCategories = true;
 
 let menuItems = [];
+let EPGDETAILS = [];
 let listItems = [];
 let filteredList = [];
 let weAreSearching = false;
@@ -193,10 +195,10 @@ class LiveScreen extends Component {
 
 			{/* HEADER STYLE  */}
 			<View style={{flexDirection : 'row'}}>
-				<TouchableOpacity>
-					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(1)}}></Icon>
+				<TouchableOpacity onPress={ () => this.props.navigation.goBack()}>
+					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(2),marginTop:totalSize(0.5)}}></Icon>
 				</TouchableOpacity>
-				<Text style={{color : 'white',marginLeft : totalSize(31),textAlign : 'center',fontSize : totalSize(4)}}>Live TV</Text>
+				<Text style={{color : 'white',marginLeft : totalSize(36),textAlign : 'center',fontSize : totalSize(4)}}>Live TV</Text>
 			</View>
 			{/* HEADER STYLE  */}
 
@@ -236,20 +238,29 @@ class LiveScreen extends Component {
 
 		listItems = [];
 
-		menuItems[index].data.forEach((ch) => {
+		menuItems[index].data.forEach(async (ch,index) => {
+			const {
+				url, username, password
+			} = this.props.navigation.state.params;
+			let EPG = {}
+			EPG = await getEPG(url, username, password, ch.stream_id);
+			EPGDETAILS.push(EPG.epg_listings[0])
+			console.log(EPGDETAILS)
 			let chItem = null;
-
+	
 			if (!ch.name.length) {
 				return;
 			}
 
 			if (ch.name.charAt(0) !== '(' && !isLetterOrNumber(ch.name.charAt(0))) {
 				chItem = <Button key={ch.stream_id} disabled onPress={() => {}} style={styles.listItem} title={ch.name} />;
-
 				listItems.push(chItem);
 
 				return;
 			}
+
+
+
 
 			chItem = ch.stream_icon.startsWith('http') || ch.stream_icon.startsWith('https') ? (
 				<ListItem
@@ -262,7 +273,7 @@ class LiveScreen extends Component {
 					titleStyle={{color : 'black'}}
 					roundAvatar
 					rightIcon={{color : 'black'}}
-					title={ch.name.toUpperCase()} />
+					title={<Text> {ch.name.toUpperCase()} <Text style={{color : 'black',textAlign : 'right',alignSelf:'flex-end'}}>{EPGDETAILS[index] ? new Date(EPGDETAILS[index].start) < new Date() < new Date(EPGDETAILS[index].end) ? "EPG SHOWING NOW" : "EPG NOT SHOWING NOW"  : "EPG NOT AVAILABLE"}</Text> </Text>} />
 			) : (
 				<ListItem
 					key={ch.stream_id}
@@ -273,13 +284,20 @@ class LiveScreen extends Component {
 					titleStyle={{color : 'black'}}
 					rightIcon={{color : 'black'}}
 					roundAvatar
-					title={ch.name.toUpperCase()} />
+					title={
+						<View style={{flexDirection : 'row'}}>
+						<Text> {ch.name.toUpperCase()} </Text>
+						<Text style={{position: 'absolute', right: 0}}>{EPGDETAILS[index] ? new Date(EPGDETAILS[index].start) < new Date() < new Date(EPGDETAILS[index].end) ? "EPG SHOWING NOW" : "EPG NOT SHOWING NOW"  : "EPG NOT AVAILABLE"}</Text>
+						</View>
+				
+				} />
 			);
 
 			listItems.push(chItem);
+			this.forceUpdate();
+
 		});
 
-		this.forceUpdate();
 	}
 
 	clearOnEmpty() {

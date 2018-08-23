@@ -191,10 +191,10 @@ class VODScreen extends Component {
 
 			{/* HEADER STYLE  */}
 			<View style={{flexDirection : 'row'}}>
-				<TouchableOpacity>
-					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(1)}}></Icon>
+			<TouchableOpacity onPress={ () => this.props.navigation.goBack()}>
+					<Icon name="ios-arrow-back" style={{color : 'white',marginLeft : totalSize(2),marginTop:totalSize(0.5)}}></Icon>
 				</TouchableOpacity>
-				<Text style={{color : 'white',marginLeft : totalSize(31),textAlign : 'center',fontSize : totalSize(4)}}>Movies</Text>
+				<Text style={{color : 'white',marginLeft : totalSize(36),textAlign : 'center',fontSize : totalSize(4)}}>Movies</Text>
 			</View>
 			{/* HEADER STYLE  */}
 			<ScrollView contentContainerStyle={styles.listContainer}>
